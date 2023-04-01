@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
-export default function ItemPost() {
+export default function Feed() {
   return (
     <li className="list-item">
       {/* header */}
@@ -33,7 +33,7 @@ export default function ItemPost() {
         </div>
       </div>
       <div className="Box-content">
-        <Link to="/" className="Link-to" >
+        <Link to="/post" className="Link-to" >
           <Title order={1} className="title-post" >
             If we quantify the alarm, we can get to the FTP pixel through the online SSL interface!
           </Title>
@@ -43,7 +43,7 @@ export default function ItemPost() {
         </Text>
       </div>
       <div className="box-flex">
-        <Link to="/red" className="Link-to link-red-more">
+        <Link to="/post" className="Link-to link-red-more">
           Red more...
         </Link>
         <div className="list-tag">

@@ -5,7 +5,9 @@ import "./style.css";
 export default function HeaderMenu() {
     
   return (
-    <Header height={56}>
+    <Header height={56} 
+      style={{ borderBottom: "none" }}
+    >
       <Container size={1200}>
         <Flex mih={56} justify="space-between" align="center" wrap="wrap" pl={"1.5rem"} pr={"1.5rem"}>
           <Link to="/" style={{ textDecoration: "none" }}>

@@ -1,6 +1,7 @@
 import { Container, Title, Text, Box, Flex } from "@mantine/core";
 import { useState } from "react";
-import ItemPost from "./components/ItemPost";
+import FullFeed from "../../components/Feeds/FullFeed";
+import Loading from "../../components/web/Loading";
 
 import "./style.css";
 
@@ -64,15 +65,23 @@ export default function Home() {
           direction="row"
           wrap="wrap"
         >
-          <Box className="Box-news" w="75%" p="15px" pl={0} miw="300px">
-            <Flex w="100%" gap="md"
+          <Box className="Box-news" w="73%" p="15px" pl={0} miw="300px">
+            <Flex
+              w="100%"
+              gap="md"
               style={{ borderBottom: "1px solid #e6e6e6" }}
               justify="flex-start"
             >
               {action.map(
-                (item, index) => item.view && (
-                    <Text key={`header-${index}`}
-                      className={item.action ? "Text-header header-active" : "Text-header"}
+                (item, index) =>
+                  item.view && (
+                    <Text
+                      key={`header-${index}`}
+                      className={
+                        item.action
+                          ? "Text-header header-active"
+                          : "Text-header"
+                      }
                       onClick={() => handleAction(index)}
                     >
                       {item.title}
@@ -80,24 +89,31 @@ export default function Home() {
                   )
               )}
             </Flex>
-
-            <ul className="list" >
-              <ItemPost />
-              <ItemPost />
-              <ItemPost />
-            </ul>
-            <ul className="Pagination">
-                {/* for 1 to 20 */}
-                {Array.from({ length: 20 }, (_, i) => i + 1).map((item, index) => (
-                    <li key={`pagination-${index}`} className={index === 0 ? "page page-focus":"page"}>
-                        {index + 1}
-                    </li>
-                ))}
-
-            </ul>
-
+            {/* <Loading heightValue="50vh" sizeValue="lg" />                     */}
+            <FullFeed />
           </Box>
-          <Box className="Box-tags" w="25%" p="15px" miw="150px"></Box>
+          <Box className="Box-tags" w="25%" p="15px" miw="150px">
+            <div className="PopularTags">
+              <Text color="#373a3c" size="1rem">
+                Popular Tags
+              </Text>
+              <ul className="list-tag">
+                {/* <Loading 
+                    heightValue="80px"
+                    sizeValue="md"
+                /> */}
+                <li className="tag">
+                  <Text>programming</Text>
+                </li>
+                <li className="tag">
+                  <Text>programming</Text>
+                </li>
+                <li className="tag">
+                  <Text>programming</Text>
+                </li>
+              </ul>
+            </div>
+          </Box>
         </Flex>
       </Container>
     </>

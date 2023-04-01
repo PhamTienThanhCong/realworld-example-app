@@ -114,10 +114,10 @@
 
 .Pagination .page{
     display: inline-block;
-    width: 2.45rem;
+    width: 2.38rem;
     border: .5px solid #a5a5a575;
     cursor: pointer;
-    padding: 0.5rem 0;
+    padding: 0.45rem 0;
     text-align: center;
     color: #5cb85c;
 }
@@ -125,4 +125,35 @@
 .page-focus{
     background-color: #5cb85c;
     color: white !important;
+}
+
+.PopularTags{
+    width: 100%;
+    background-color: #f3f3f3;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.list-tag{
+    /* remove dot */
+    list-style: none;
+    /* remove padding */
+    padding: 0;
+}
+
+.list-tag .tag{
+    display: inline-block;
+    padding: .1rem .5rem;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    margin: 2px;
+    border-radius: 15px;
+    color: white;
+    background-color: #818a91;
+    cursor: pointer;
+    /* font-weight: 300; */
+}
+
+.list-tag .tag:hover{
+    background-color: #687077;
 }

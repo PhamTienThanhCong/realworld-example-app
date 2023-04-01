@@ -17,3 +17,14 @@ footer{
     color: #5cb85c;
     text-decoration: underline;
 }
+
+.NavLink{
+    color: rgba(0,0,0,.4);
+    /* remove under */
+    text-decoration: none;
+}
+
+.active{
+    color: rgba(0,0,0,1);
+}
+
