@@ -1,0 +1,128 @@
+/* screen mobile */
+@media screen and (max-width: 768px) {
+    .Box-news, .Box-tags {
+        width: 100%;
+    }
+}
+
+.Text-header{
+    padding: 1rem;
+    padding-bottom: 0.5rem;
+    color: gray;
+    cursor: pointer;
+    transform: translateY(1px);
+}
+
+.header-active{
+    color: #5cb85c;
+    border-bottom: 2px solid #5cb85c;
+}
+
+.list{
+    /* remove dot */
+    list-style: none;
+    /* remove padding */
+    padding: 0;
+}
+
+.list-item{
+    padding: 1rem 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* last item don't show border */
+.list-item:last-child{
+    border-bottom: none;
+}
+
+.box-flex{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.box-flex .box-flex-item{
+    width: 50%;
+}
+
+.Link-to{
+    color: #5cb85c;
+    text-decoration: none;
+}
+
+.info{
+    margin-left: .5rem;
+}
+
+.info .name{
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0;
+    transform: translateY(-3px);
+}
+
+.info .date-come {
+    font-size: .8rem;
+    color: rgba(128, 128, 128, 0.692);
+    transform: translateY(-8px);
+}
+
+.info-user{
+    display: flex;
+}
+
+.user-image{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.Box-content .title-post{
+    font-size: 1.4rem!important;
+    font-weight: 600!important;
+    line-height: 1.1;
+    color: rgb(34, 33, 33);
+}
+
+.link-red-more{
+    color: #bbb;
+    font-weight: 300;
+    font-size: .7rem;
+}
+
+.list-tag{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tag-name{
+    /* color: "#bbb", border: "1px solid #bbb", textTransform: "lowercase" */
+    color: #bbb;
+    border: 1px solid #bbb;
+    text-transform: lowercase;
+    font-size: .7rem;
+    font-weight: 300;
+}
+
+.Pagination{
+    width: 100%;
+    margin-top: 1rem;
+    /* remove dot */
+    list-style: none;
+}
+
+.Pagination .page{
+    display: inline-block;
+    width: 2.45rem;
+    border: .5px solid #a5a5a575;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    text-align: center;
+    color: #5cb85c;
+}
+
+.page-focus{
+    background-color: #5cb85c;
+    color: white !important;
+}

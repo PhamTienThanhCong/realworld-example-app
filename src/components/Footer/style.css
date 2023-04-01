@@ -1,0 +1,19 @@
+footer{
+    background-color: #f3f3f3;
+    padding: 15px 0;
+}
+
+.titleWeb{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: rgba(0,0,0,.4);
+    /* remove underline */
+    text-decoration: none;
+    color: #5cb85c;
+    padding-left: 10px;
+}
+
+.titleWeb:hover{
+    color: #5cb85c;
+    text-decoration: underline;
+}
