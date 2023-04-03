@@ -33,7 +33,7 @@ export default function Feed() {
         </div>
       </div>
       <div className="Box-content">
-        <Link to="/post" className="Link-to" >
+        <Link to="/feed/view" className="Link-to" >
           <Title order={1} className="title-post" >
             If we quantify the alarm, we can get to the FTP pixel through the online SSL interface!
           </Title>
@@ -43,7 +43,7 @@ export default function Feed() {
         </Text>
       </div>
       <div className="box-flex">
-        <Link to="/post" className="Link-to link-red-more">
+        <Link to="/feed/view" className="Link-to link-red-more">
           Red more...
         </Link>
         <div className="list-tag">

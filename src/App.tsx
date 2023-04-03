@@ -15,7 +15,7 @@ function App() {
         <HeaderMenu />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/post/:postId' element={<ViewPost />} />
+          <Route path='/feed/:postId' element={<ViewPost />} />
           
           <Route path="/login" element={<SignIn />}/>
           <Route path="/register" element={<SignUp />}/>
