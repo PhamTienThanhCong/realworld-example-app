@@ -6,50 +6,49 @@ import {
   TextInput,
   PasswordInput,
   Button,
+  Box,
 } from "@mantine/core";
-import { Link } from "react-router-dom";
-import { LOGIN } from "../../apis/user";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { login } from "../../apis/user";
 import { useState } from "react";
+import { LoginUser, DEFAULT_LOGIN_USER } from "../../models/user";
+import { useForm, isNotEmpty, isEmail, hasLength } from '@mantine/form';
 
 function SignIn() {
   const [onSubmit, setOnSubmit] = useState(false);
-  const [loginError, setLoginError] = useState("");
-  const [formDatas, setFormDatas] = useState({
-    email: "",
-    password: "",
+  const location = useLocation()
+  const navigate = useNavigate();
+  const form = useForm<LoginUser>({
+    initialValues: DEFAULT_LOGIN_USER,
+
+    validate: {
+      email: isEmail('Invalid email'),
+      password: isNotEmpty('Password is required'),
+    },
   });
 
-  // console.log(loginError);
-
-  // change the value of the input
-  const handleChange = (e: { target: { name: string; value: string } }) => {
-    setFormDatas({ ...formDatas, [e.target.name]: e.target.value });
-  };
-
   // submit the form
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setLoginError("");
-    let error = "";
-    if (formDatas.email.trim() === "") error = "Email is not blank";
-    if (formDatas.password.trim() === "") error = "Password is not blank";
-    if (!formDatas.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-      error = "Invalid email";
-    }
-    setLoginError(error);
-    if (!error){
+  const handleSubmit = async (formData:LoginUser) => {
       setOnSubmit(true);
-
       try {
-        const res:any = await LOGIN(formDatas);
+        const res:any = await login(formData);
         localStorage.setItem("token", res.data.token);
+        navigate("/");
       } catch (error) {
-        setLoginError("Invalid email or password");
       } finally {
         setOnSubmit(false);
       }
-    }
   };
+
+  const getInputProps = (name: keyof LoginUser) => ({
+    ...form.getInputProps(name),
+    mb:"16px",
+    placeholder:name,
+    name:name,
+    size:"lg",
+    required: true,
+    disabled: onSubmit,
+  });
 
   return (
     <Container size={1100} mt="1rem" style={{ height: "calc(100vh - 132px)" }}>
@@ -62,54 +61,32 @@ function SignIn() {
             Need an account?
           </Text>
         </Link>
-
-        {loginError && (
-          <Text mb="1rem" color="#b85c5c" weight={500}>
-            {loginError}
-          </Text>
-        )}
-
-        <form
-          action=""
-          onSubmit={handleSubmit}
+        <Text mb="1rem" color="green">
+          {location.state?.message}
+        </Text>
+        <Box
+          component="form"
           style={{
             width: "100%",
             maxWidth: "540px",
           }}
-          method="POST"
+          onSubmit={form.onSubmit(handleSubmit)}
         >
           <TextInput
-            mb={"16px"}
-            placeholder="Email"
-            name="email"
-            size="lg"
-            withAsterisk
-            required
-            value={formDatas.email}
-            onChange={handleChange}
-            disabled={onSubmit}
+            {...getInputProps('email')}
           />
           <PasswordInput
-            mb={"16px"}
-            placeholder="Password"
-            name="password"
-            size="lg"
-            withAsterisk
-            required
-            value={formDatas.password}
-            onChange={handleChange}
-            disabled={onSubmit}
+            {...getInputProps('email')}
           />
           <Button
             bg={process.env.REACT_APP_MAIN_COLOR}
             size="lg"
             style={{ float: "right" }}
             disabled={onSubmit}
-            onClick={handleSubmit}
           >
             Sign in
           </Button>
-        </form>
+        </Box>
       </Flex>
     </Container>
   );
