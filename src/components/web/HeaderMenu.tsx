@@ -1,4 +1,4 @@
-import { Header, Text, Flex, Container, Title, Group, Avatar } from "@mantine/core";
+import { Header, Text, Flex, Container, Title, Group } from "@mantine/core";
 import { NavLink, Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth";
