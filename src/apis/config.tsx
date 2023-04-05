@@ -14,7 +14,7 @@ export const callApi = async({ method, url, data, signal }: callApiInterface) =>
     const config = {
         baseURL: 'https://api.realworld.io/api',
         headers: {
-          Authorization: !!jwtToken ? `Token ${jwtToken}` : '',
+          Authorization: !!jwtToken ? `Bearer ${jwtToken}` : '',
         },
         signal: signal,
       };

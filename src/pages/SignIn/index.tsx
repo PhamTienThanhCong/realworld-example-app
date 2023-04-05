@@ -10,31 +10,36 @@ import {
 } from "@mantine/core";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login } from "../../apis/user";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoginUser, DEFAULT_LOGIN_USER } from "../../models/user";
-import { useForm, isNotEmpty, isEmail, hasLength } from '@mantine/form';
+import { useForm, isNotEmpty, isEmail } from '@mantine/form';
+import { AuthContext } from "../../context/auth";
 
 function SignIn() {
   const [onSubmit, setOnSubmit] = useState(false);
-  const location = useLocation()
+  const location = useLocation();
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+  // remove token
   const form = useForm<LoginUser>({
     initialValues: DEFAULT_LOGIN_USER,
-
+    
     validate: {
       email: isEmail('Invalid email'),
       password: isNotEmpty('Password is required'),
     },
   });
-
+  
   // submit the form
   const handleSubmit = async (formData:LoginUser) => {
-      setOnSubmit(true);
-      try {
+    setOnSubmit(true);
+    try {
         const res:any = await login(formData);
-        localStorage.setItem("token", res.data.token);
+        auth.setLocalStorage(res.data.user.token? res.data.user.token: "");
         navigate("/");
       } catch (error) {
+        form.setFieldError('email', "Invalid email or password");
+        form.setFieldValue('password', '');
       } finally {
         setOnSubmit(false);
       }
@@ -76,13 +81,14 @@ function SignIn() {
             {...getInputProps('email')}
           />
           <PasswordInput
-            {...getInputProps('email')}
+            {...getInputProps('password')}
           />
           <Button
             bg={process.env.REACT_APP_MAIN_COLOR}
             size="lg"
             style={{ float: "right" }}
             disabled={onSubmit}
+            type="submit"
           >
             Sign in
           </Button>

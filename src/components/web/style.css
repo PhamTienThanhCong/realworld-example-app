@@ -28,3 +28,15 @@ footer{
     color: rgba(0,0,0,1);
 }
 
+.avatar-header{
+    display: flex;
+    align-items: center;
+}
+
+.user-image-header{
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 3px;
+}
