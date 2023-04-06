@@ -1,7 +1,9 @@
 import { Container, Title, Text, Box, Flex } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FullFeed from "../../components/Feeds/FullFeed";
 import Loading from "../../components/web/Loading";
+import { getTags } from "../../apis/tags";
+import { getFeeds } from "../../apis/feeds";
 
 import "./style.css";
 
@@ -24,6 +26,40 @@ export default function Home() {
     },
   ];
   const [action, setAction] = useState(actionInit);
+  const [Tags, setTags] = useState([]);
+  const [Feeds, setFeeds] = useState([]);
+
+  const [loadingTag, setLoadingTag] = useState(true);
+  const [loadingFeed, setLoadingFeed] = useState(true);
+
+  useEffect(() => {
+    const getTagNames = async () => {
+      try {
+        const res:any = await getTags();
+        setTags(res.data.tags);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingTag(false);
+      }
+    };
+    getTagNames();
+  }, []);
+
+  useEffect(() => {
+    const getTagNames = async () => {
+      try {
+        const res:any = await getFeeds();
+        setFeeds(res.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingFeed(false);
+      }
+    };
+    getTagNames();
+  }, []);
+
   const handleAction = (index: number) => {
     const newAction = action.map((item, i) => {
       if (i === index) {
@@ -89,8 +125,11 @@ export default function Home() {
                   )
               )}
             </Flex>
-            {/* <Loading heightValue="50vh" sizeValue="lg" />                     */}
-            <FullFeed />
+            {loadingFeed ? (
+              <Loading heightValue="50vh" sizeValue="lg" />
+            ) : (
+              <FullFeed data={Feeds} />
+            )}
           </Box>
           <Box className="Box-tags" w="25%" p="15px" miw="150px">
             <div className="PopularTags">
@@ -98,19 +137,15 @@ export default function Home() {
                 Popular Tags
               </Text>
               <ul className="list-tag">
-                {/* <Loading 
-                    heightValue="80px"
-                    sizeValue="md"
-                /> */}
-                <li className="tag">
-                  <Text>programming</Text>
-                </li>
-                <li className="tag">
-                  <Text>programming</Text>
-                </li>
-                <li className="tag">
-                  <Text>programming</Text>
-                </li>
+                {loadingTag ? (
+                  <Loading heightValue="30vh" sizeValue="lg" />
+                ) : (
+                  Tags.map((item, index) => (
+                    <li key={`tag-${index}`} className="tag">
+                      <Text>{item}</Text>
+                    </li>
+                  ))
+                )}
               </ul>
             </div>
           </Box>

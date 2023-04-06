@@ -1,20 +1,26 @@
 import ListFeed from "./ListFeed";
+import { Group, Pagination } from '@mantine/core';
 
-function FullFeed() {
+function FullFeed({ data }: { data: any }) {
+  const pages = Math.ceil(data.articlesCount / 10);
   return (
     <>
-      <ListFeed />
-      <ul className="Pagination">
-        {/* for 1 to 20 */}
-        {Array.from({ length: 20 }, (_, i) => i + 1).map((item, index) => (
-          <li
-            key={`pagination-${index}`}
-            className={index === 0 ? "page page-focus" : "page"}
-          >
-            {index + 1}
-          </li>
-        ))}
-      </ul>
+      <ListFeed feeds={data.articles} />
+      <Pagination.Root 
+        total={pages}
+        boundaries={3}
+        size="lg"
+        defaultValue={1}
+        onChange={(page) => console.log(page)}
+      >
+      <Group spacing={10} position="center" mt={20} mb={20} w="100%">
+        <Pagination.First />
+        <Pagination.Previous />
+        <Pagination.Items />
+        <Pagination.Next />
+        <Pagination.Last />
+      </Group>
+    </Pagination.Root>
     </>
   );
 }
