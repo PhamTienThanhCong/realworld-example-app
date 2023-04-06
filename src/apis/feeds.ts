@@ -1,3 +1,5 @@
 import { GET } from "./config";
 
-export const getFeeds = () => GET("/articles?limit=10&offset=0");
+export const getFeeds = (page:number) => GET(`/articles?limit=10&offset=${page * 10 - 10}`);
+
+export const getYourFeed = (page:number) => GET(`/articles/feed?limit=10&offset=${page * 10 - 10}`);

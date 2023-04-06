@@ -3,21 +3,25 @@ import { useEffect, useState } from "react";
 import FullFeed from "../../components/Feeds/FullFeed";
 import Loading from "../../components/web/Loading";
 import { getTags } from "../../apis/tags";
-import { getFeeds } from "../../apis/feeds";
+import { getFeeds, getYourFeed } from "../../apis/feeds";
+import { useContext } from "react";
+import { AuthContext } from "../../context/auth";
 
 import "./style.css";
 
 export default function Home() {
+  const auth = useContext(AuthContext);
+
   const actionInit = [
     {
-      view: false,
+      view: auth.auth.logged,
       title: "Your Feed",
-      action: false,
+      action: auth.auth.logged,
     },
     {
       view: true,
       title: "Global Feed",
-      action: true,
+      action: !auth.auth.logged,
     },
     {
       view: false,
@@ -25,17 +29,20 @@ export default function Home() {
       action: false,
     },
   ];
+
   const [action, setAction] = useState(actionInit);
   const [Tags, setTags] = useState([]);
   const [Feeds, setFeeds] = useState([]);
+  const [page, setPage] = useState<number>(1);
 
-  const [loadingTag, setLoadingTag] = useState(true);
-  const [loadingFeed, setLoadingFeed] = useState(true);
+  const [loadingTag, setLoadingTag] = useState<boolean>(true);
+  const [loadingFeed, setLoadingFeed] = useState<boolean>(true);
 
+  
   useEffect(() => {
     const getTagNames = async () => {
       try {
-        const res:any = await getTags();
+        const res: any = await getTags();
         setTags(res.data.tags);
       } catch (error) {
         console.log(error);
@@ -47,9 +54,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    setLoadingFeed(true);
     const getTagNames = async () => {
       try {
-        const res:any = await getFeeds();
+        let res: any;
+        if (action[0].action) { 
+          res = await getYourFeed(page);
+        } else if (action[2].action) {
+          res = await getFeeds(page);
+        } else{
+          res = await getFeeds(page);
+        }
         setFeeds(res.data);
       } catch (error) {
         console.log(error);
@@ -58,9 +73,10 @@ export default function Home() {
       }
     };
     getTagNames();
-  }, []);
+  }, [page, action]);
 
   const handleAction = (index: number) => {
+    setPage(1);
     const newAction = action.map((item, i) => {
       if (i === index) {
         return {
@@ -128,7 +144,11 @@ export default function Home() {
             {loadingFeed ? (
               <Loading heightValue="50vh" sizeValue="lg" />
             ) : (
-              <FullFeed data={Feeds} />
+              <FullFeed
+                data={Feeds}
+                setCurrentPage={setPage}
+                currentPage={page}
+              />
             )}
           </Box>
           <Box className="Box-tags" w="25%" p="15px" miw="150px">
