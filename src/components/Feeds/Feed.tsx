@@ -1,10 +1,36 @@
 import { Text, Button, Title } from "@mantine/core";
 import { Badge } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../context/auth";
+import { favoriteArticle, unFavoriteArticle } from "../../apis/articles";
 
 export default function Feed({ feed }: { feed: any }) {
+  const auth = useContext(AuthContext);
+  const [isFavorite, setIsFavorite] = useState<boolean>(feed.favorited);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const nav = useNavigate();
+
+  const handleFavorite = async() => {
+    if (!auth.auth.logged){
+      nav("/login");
+    }
+    setIsLoading(true);
+    try {
+      if (isFavorite){
+        await unFavoriteArticle(feed.slug);
+      }else{
+        await favoriteArticle(feed.slug);
+      }
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      
+    } finally {
+      setIsLoading(false)
+    }
+  };
   return (
     <li className="list-item">
       {/* header */}
@@ -35,11 +61,13 @@ export default function Feed({ feed }: { feed: any }) {
         </div>
         <div>
           <Button
-            variant={feed.favorited ? "filled" : "outline"}
+            variant={isFavorite ? "filled" : "outline"}
             color="green"
             size="xs"
+            disabled={isLoading}
+            onClick={()=>{handleFavorite()}}
           >
-            <FontAwesomeIcon icon={faHeart} />{" "}
+            {auth.auth.logged?(<FontAwesomeIcon icon={faHeart} />) : ("")}
             <Text size=".875rem" ml="0.2rem">
               {feed.favoritesCount}
             </Text>
@@ -62,21 +90,16 @@ export default function Feed({ feed }: { feed: any }) {
         </Link>
         <div className="list-tag">
           {feed.tagList.map((item: any, index: number) => (
-            <Link
-              to="/tag"
-              className="Link-to"
-              key={`tag-${feed.slug}-${index}`}
+            <Badge
+              key={`min-tag-${index}`}
+              className="tag-name"
+              ml="0.4rem"
+              size="xs"
+              radius="md"
+              variant="outline"
             >
-              <Badge
-                className="tag-name"
-                ml="0.4rem"
-                size="xs"
-                radius="md"
-                variant="outline"
-              >
-                {item}
-              </Badge>
-            </Link>
+              {item}
+            </Badge>
           ))}
         </div>
       </div>

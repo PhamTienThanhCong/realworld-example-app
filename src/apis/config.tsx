@@ -4,10 +4,10 @@ type callApiInterface = {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     url: string,
     data?: {},
-    signal?: any,
+    params?: {},
 }
 
-export const callApi = async({ method, url, data, signal }: callApiInterface) => {
+export const callApi = async({ method, url, data, params }: callApiInterface) => {
     // config header
     // get token from local storage
     const jwtToken = localStorage.getItem('token');
@@ -16,7 +16,7 @@ export const callApi = async({ method, url, data, signal }: callApiInterface) =>
         headers: {
           Authorization: !!jwtToken ? `Bearer ${jwtToken}` : '',
         },
-        signal: signal,
+        params: {...params}
       };
     try {
         const dataResponse =
@@ -30,8 +30,8 @@ export const callApi = async({ method, url, data, signal }: callApiInterface) =>
     }
 }
 
-export const GET = (url: string, signal?: AbortSignal) =>
-  callApi({ method: 'GET', url, signal });
+export const GET = (url: string, params?: {}) =>
+  callApi({ method: 'GET', url, params });
 
 export const POST = (url: string, data?: {}) =>
   callApi({ method: 'POST', url, data });

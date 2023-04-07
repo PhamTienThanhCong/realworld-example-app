@@ -154,6 +154,11 @@
     /* font-weight: 300; */
 }
 
+.list-tag .tag-active{
+    background-color: #687077;
+    text-decoration: underline;
+}
+
 .list-tag .tag:hover{
     background-color: #687077;
 }

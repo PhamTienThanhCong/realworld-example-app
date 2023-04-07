@@ -10,31 +10,29 @@ import { AuthContext } from "../../context/auth";
 import "./style.css";
 
 export default function Home() {
+  interface Params {
+    limit: number;
+    offset: number;
+    tag?: string;
+  }
+
+  interface Feeds {
+    articles: any[];
+    articlesCount: number;
+  }
+
   const auth = useContext(AuthContext);
 
-  const actionInit = [
-    {
-      view: auth.auth.logged,
-      title: "Your Feed",
-      action: auth.auth.logged,
-    },
-    {
-      view: true,
-      title: "Global Feed",
-      action: !auth.auth.logged,
-    },
-    {
-      view: false,
-      title: "# implementations",
-      action: false,
-    },
-  ];
-
-  const [action, setAction] = useState(actionInit);
   const [Tags, setTags] = useState([]);
-  const [Feeds, setFeeds] = useState([]);
+  const [Feeds, setFeeds] = useState<Feeds>({
+    articles: [],
+    articlesCount: 0,
+  });
   const [page, setPage] = useState<number>(1);
-
+  const [title, setTitle] = useState(
+    auth.auth.logged ? "Your Feed" : "Global Feed"
+  );
+  const [tag, setTag] = useState<string>("");
   const [loadingTag, setLoadingTag] = useState<boolean>(true);
   const [loadingFeed, setLoadingFeed] = useState<boolean>(true);
 
@@ -44,7 +42,7 @@ export default function Home() {
         const res: any = await getTags();
         setTags(res.data.tags);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setLoadingTag(false);
       }
@@ -55,14 +53,21 @@ export default function Home() {
   useEffect(() => {
     setLoadingFeed(true);
     const getTagNames = async () => {
+      
+      let params: Params = {
+        limit: 10,
+        offset: (page - 1) * 10,
+      };
       try {
         let res: any;
-        if (action[0].action) {
-          res = await getYourFeed(page);
-        } else if (action[2].action) {
-          res = await getFeeds(page);
+        if (title === "Your Feed") {
+          res = await getYourFeed(page, params);
         } else {
-          res = await getFeeds(page);
+          // nếu có tag thì thêm trường tag vào params
+          if (tag) {
+            params = { ...params, tag };
+          }
+          res = await getFeeds(page, params);
         }
         setFeeds(res.data);
       } catch (error) {
@@ -72,27 +77,22 @@ export default function Home() {
       }
     };
     getTagNames();
-  }, [page, action]);
+  }, [page, title]);
 
-  const handleAction = (index: number, tag?: string) => {
+  const handleTitle = (title: string, tag?: string) => {
+    setTitle(title);
+    setTag(tag || "");
     setPage(1);
-    const newAction = action.map((item, i) => {
-      if (i === index) {
-        return {
-          ...item,
-          view: true,
-          action: true,
-          title: tag ? `#${tag}` : item.title,
-        };
-      } else {
-        return {
-          ...item,
-          action: false,
-        };
-      }
-    });
-    setAction(newAction);
   };
+
+  const getTitleProps = (page: string) => ({
+    children: page,
+    className: title === page ? "Text-header header-active" : "Text-header",
+    onClick: () => {
+      handleTitle(page);
+    },
+  });
+
   return (
     <>
       <Container size={1400} bg={process.env.REACT_APP_MAIN_COLOR} p="2rem">
@@ -125,31 +125,41 @@ export default function Home() {
               style={{ borderBottom: "1px solid #e6e6e6" }}
               justify="flex-start"
             >
-              {action.map(
-                (item, index) =>
-                  item.view && (
-                    <Text
-                      key={`header-${index}`}
-                      className={
-                        item.action
-                          ? "Text-header header-active"
-                          : "Text-header"
-                      }
-                      onClick={() => handleAction(index)}
-                    >
-                      {item.title}
-                    </Text>
-                  )
-              )}
+              {/* header-active */}
+              <Text
+                {...getTitleProps("Your Feed")}
+                style={{
+                  display: auth.auth.logged === true ? "block" : "none",
+                }}
+              />
+              <Text {...getTitleProps("Global Feed")} />
+              <Text
+                style={{ display: tag !== "" ? "block" : "none" }}
+                {...getTitleProps(`#${tag}`)}
+              />
             </Flex>
             {loadingFeed ? (
               <Loading heightValue="50vh" sizeValue="lg" />
             ) : (
-              <FullFeed
+              // check xem có feed nào không
+              Feeds.articles.length > 0 ? (
+                <FullFeed
                 data={Feeds}
                 setCurrentPage={setPage}
                 currentPage={page}
               />
+              ) : (
+                <Text
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "50vh",
+                  }}
+                >
+                  No articles are here... yet.
+                </Text>
+              )
             )}
           </Box>
           <Box className="Box-tags" w="25%" p="15px" miw="150px">
@@ -164,9 +174,9 @@ export default function Home() {
                   Tags.map((item, index) => (
                     <li
                       key={`tag-${index}`}
-                      className="tag"
+                      className={tag === item ? "tag tag-active" : "tag"}
                       onClick={() => {
-                        handleAction(2, item);
+                        handleTitle(`#${item}`, item);
                       }}
                     >
                       <Text>{item}</Text>
