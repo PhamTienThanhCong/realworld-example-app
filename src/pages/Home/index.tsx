@@ -38,7 +38,6 @@ export default function Home() {
   const [loadingTag, setLoadingTag] = useState<boolean>(true);
   const [loadingFeed, setLoadingFeed] = useState<boolean>(true);
 
-  
   useEffect(() => {
     const getTagNames = async () => {
       try {
@@ -58,11 +57,11 @@ export default function Home() {
     const getTagNames = async () => {
       try {
         let res: any;
-        if (action[0].action) { 
+        if (action[0].action) {
           res = await getYourFeed(page);
         } else if (action[2].action) {
           res = await getFeeds(page);
-        } else{
+        } else {
           res = await getFeeds(page);
         }
         setFeeds(res.data);
@@ -75,13 +74,15 @@ export default function Home() {
     getTagNames();
   }, [page, action]);
 
-  const handleAction = (index: number) => {
+  const handleAction = (index: number, tag?: string) => {
     setPage(1);
     const newAction = action.map((item, i) => {
       if (i === index) {
         return {
           ...item,
+          view: true,
           action: true,
+          title: tag ? `#${tag}` : item.title,
         };
       } else {
         return {
@@ -161,7 +162,13 @@ export default function Home() {
                   <Loading heightValue="30vh" sizeValue="lg" />
                 ) : (
                   Tags.map((item, index) => (
-                    <li key={`tag-${index}`} className="tag">
+                    <li
+                      key={`tag-${index}`}
+                      className="tag"
+                      onClick={() => {
+                        handleAction(2, item);
+                      }}
+                    >
                       <Text>{item}</Text>
                     </li>
                   ))

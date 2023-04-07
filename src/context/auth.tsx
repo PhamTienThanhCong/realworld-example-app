@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }: any) => {
   const [auth, setAuth] = useState<Auth>(DEFAULT_AUTH);
   const [loading, setLoading] = useState<boolean>(true);
   const [token, setToken] = useState<string>(localStorage.getItem("token") || "");
-
   const logout = () => {
     setAuth(DEFAULT_AUTH);
     localStorage.removeItem("token");
@@ -42,22 +41,21 @@ export const AuthProvider = ({ children }: any) => {
   };
   
   async function fetchUser() {
-    const user:any = await getCurrentUser();
-    login(user.data.user);
-    setLoading(false);
+    try {
+      const user:any = await getCurrentUser();
+      login(user.data.user);
+    } catch (error) {
+      logout();
+    } finally {
+      setLoading(false);
+    }
   }
   
   useLayoutEffect(() => {
     setLoading(true);
-    if (token !== "") {
-      try {  
-        fetchUser();
-      } catch (error) {
-        localStorage.removeItem("token");
-        logout();
-        setLoading(false);
-      }
-    } else {
+    if (token){
+      fetchUser();
+    }else{
       logout();
       setLoading(false);
     }
