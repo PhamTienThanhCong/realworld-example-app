@@ -16,6 +16,7 @@ import { updateCurrentUser } from "../../apis/user";
 import { useNavigate } from "react-router-dom";
 
 function EditProfile() {
+  document.title = "Edit Profile";
   const auth = useContext(AuthContext);
   const [ onSubmit, setOnSubmit ] = useState(false);
   const navigate = useNavigate();

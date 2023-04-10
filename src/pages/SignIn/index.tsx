@@ -16,6 +16,7 @@ import { useForm, isNotEmpty, isEmail } from '@mantine/form';
 import { AuthContext } from "../../context/auth";
 
 function SignIn() {
+  document.title = "Sign in";
   const [onSubmit, setOnSubmit] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();

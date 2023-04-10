@@ -16,6 +16,7 @@ import {
   import { createArticle } from "../../apis/articles";
   
   function NewArticle() {
+    document.title = "New Article";
     const [dataTag, setDataTag] = useState([]);
     const [loadingTags, setLoadingTags] = useState<boolean>(true);
     const [noti, setNoti] = useState<string>('');

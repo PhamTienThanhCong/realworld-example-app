@@ -2,7 +2,7 @@ import React from "react";
 import HeaderMenu from "./components/web/HeaderMenu";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import ViewPost from "./pages/ViewArticle";
+import ViewArticle from "./pages/ViewArticle";
 import Footer from "./components/web/Footer";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -18,7 +18,7 @@ function App() {
         <HeaderMenu />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/article/:postId" element={<ViewPost />} />
+          <Route path="/article/:postId" element={<ViewArticle />} />
 
           <Route element={<GuestRoutes />}>
             <Route path="/login" element={<SignIn />} />

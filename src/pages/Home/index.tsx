@@ -10,6 +10,7 @@ import "./style.css";
 import MainFeed from "../../components/Feeds/MainFeed";
 
 export default function Home() {
+  document.title = "conduit";
   const auth = useContext(AuthContext);
 
   const [Tags, setTags] = useState([]);

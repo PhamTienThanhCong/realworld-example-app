@@ -15,6 +15,7 @@ import { register } from "../../apis/user";
 import { RegisterUser, DEFAULT_REGISTER_USER } from "../../models/user";
 
 function SignUp() {
+  document.title = "Sign up";
   const [onSubmit, setOnSubmit] = useState(false);
   const navigate = useNavigate();
   const form = useForm<RegisterUser>({
