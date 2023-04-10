@@ -36,7 +36,7 @@ export default function Feed({ feed }: { feed: any }) {
       {/* header */}
       <div className="box-flex">
         <div className="info-user">
-          <Link to="/user">
+          <Link to={`/profile/${feed.author.username}`}>
             <img
               className="user-image"
               src={feed.author.image}
@@ -45,7 +45,7 @@ export default function Feed({ feed }: { feed: any }) {
           </Link>
           <div className="info">
             <Text className="name">
-              <Link className="Link-to" to={`/user/${feed.author.username}`}>
+              <Link className="Link-to" to={`/profile/${feed.author.username}`}>
                 {feed.author.username}
               </Link>
             </Text>
@@ -75,7 +75,7 @@ export default function Feed({ feed }: { feed: any }) {
         </div>
       </div>
       <div className="Box-content">
-        <Link to={`/feed/${feed.slug}`} className="Link-to">
+        <Link to={`/article/${feed.slug}`} className="Link-to">
           <Title order={1} className="title-post">
             {feed.title}
           </Title>
@@ -85,7 +85,7 @@ export default function Feed({ feed }: { feed: any }) {
         </Text>
       </div>
       <div className="box-flex">
-        <Link to={`/feed/${feed.slug}`} className="Link-to link-red-more">
+        <Link to={`/article/${feed.slug}`} className="Link-to link-red-more">
           Red more...
         </Link>
         <div className="list-tag">

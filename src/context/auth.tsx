@@ -40,18 +40,17 @@ export const AuthProvider = ({ children }: any) => {
     setLocalStorage,
   };
   
-  async function fetchUser() {
-    try {
-      const user:any = await getCurrentUser();
-      login(user.data.user);
-    } catch (error) {
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  }
-  
   useLayoutEffect(() => {
+    async function fetchUser() {
+      try {
+        const user:any = await getCurrentUser();
+        login(user.data.user);
+      } catch (error) {
+        logout();
+      } finally {
+        setLoading(false);
+      }
+    }
     setLoading(true);
     if (token){
       fetchUser();

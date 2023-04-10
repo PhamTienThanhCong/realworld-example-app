@@ -35,7 +35,7 @@ export default function HeaderMenu() {
             </NavLink>
             {auth.logged ? (
               <>
-                <NavLink to="/login" className="NavLink">
+                <NavLink to="/newArticle" className="NavLink">
                   <Text>
                     <FontAwesomeIcon icon={faPenToSquare} />
                     <span> New Article</span>
@@ -47,8 +47,7 @@ export default function HeaderMenu() {
                     <span> Setting</span>
                   </Text>
                 </NavLink>
-                <NavLink to="/register" className="NavLink">
-                    {/* <Avatar radius="xl" w="26px" src={auth.user.image} alt={ auth.user.username } /> */}
+                <NavLink to={`/profile/` + auth.user.username } className="NavLink">
                     <div className="avatar-header">
                       <img className="user-image-header" src={auth.user.image} alt={ auth.user.username } />
                       <span>{ auth.user.username }</span>
