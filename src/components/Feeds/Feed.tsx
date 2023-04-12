@@ -6,6 +6,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/auth";
 import { favoriteArticle, unFavoriteArticle } from "../../apis/articles";
+import { formatDate } from "../../Helper/TextFormat";
 
 export default function Feed({ feed }: { feed: any }) {
   const auth = useContext(AuthContext);
@@ -50,12 +51,7 @@ export default function Feed({ feed }: { feed: any }) {
               </Link>
             </Text>
             <Text className="date-come">
-              {/* formate datetime updatedAt */}
-              {new Date(feed.updatedAt).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {formatDate(new Date(feed.updatedAt))}
             </Text>
           </div>
         </div>

@@ -1,0 +1,60 @@
+.btn-unActive, .btn-unActive-flow{
+    background-color: transparent;
+    color: #ccc;
+    border: 1px solid #ccc;
+    font-weight: 400;
+}
+
+.btn-unActive:hover{
+    background-color: #ccc;
+    color: #fff;
+}
+
+.btn-flow,.btn-unActive-flow{
+    color: #5cb85c;
+    border-color: #5cb85c;
+}
+
+.btn-unActive-flow:hover{
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.btn-Active{
+    background: #ccc;
+    color: black;
+}
+
+.btn-Active:hover{
+    background: #d8d7d7;
+    color: black;
+}
+
+.btn-Active-flow{
+    background-color: #4f9b4f;
+    color: #ebe9e9;
+}
+
+.btn-Active-flow:hover {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.btn-red{
+    border-color: #b85c5c;
+    color: #b85c5c;
+}
+
+.btn-red:hover{
+    background-color: #b85c5c;
+    color: #fff;
+}
+
+.user-profile-name{
+    color: white;
+}
+
+.user-profile-body .user-profile-name{
+    color: #5cb85c;
+    font-weight: 500;
+}

@@ -17,4 +17,7 @@ export const unFavoriteArticle = (slug: string) => DELETE(`/articles/${slug}/fav
 export const createArticle = (data:Article) => {
     return POST("/articles", { article: data });
   };
+
+// Xoa bai viet
+export const deleteArticle = (slug: string) => DELETE(`/articles/${slug}`);
   
