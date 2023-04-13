@@ -12,6 +12,7 @@ export default function Feed({ feed }: { feed: any }) {
   const auth = useContext(AuthContext);
   const [isFavorite, setIsFavorite] = useState<boolean>(feed.favorited);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [favoriteCount, setFavoriteCount] = useState<number>(feed.favoritesCount);
   const nav = useNavigate();
 
   const handleFavorite = async() => {
@@ -22,8 +23,10 @@ export default function Feed({ feed }: { feed: any }) {
     try {
       if (isFavorite){
         await unFavoriteArticle(feed.slug);
+        setFavoriteCount(favoriteCount - 1)
       }else{
         await favoriteArticle(feed.slug);
+        setFavoriteCount(favoriteCount + 1)
       }
       setIsFavorite(!isFavorite);
     } catch (error) {
@@ -65,7 +68,7 @@ export default function Feed({ feed }: { feed: any }) {
           >
             {auth.auth.logged?(<FontAwesomeIcon icon={faHeart} />) : ("")}
             <Text size=".875rem" ml="0.2rem">
-              {feed.favoritesCount}
+              {favoriteCount}
             </Text>
           </Button>
         </div>
@@ -82,7 +85,7 @@ export default function Feed({ feed }: { feed: any }) {
       </div>
       <div className="box-flex">
         <Link to={`/article/${feed.slug}`} className="Link-to link-red-more">
-          Red more...
+          Read more...
         </Link>
         <div className="list-tag">
           {feed.tagList.map((item: any, index: number) => (
