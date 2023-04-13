@@ -20,7 +20,6 @@ import { convertLineToBr } from "../../Helper/TextFormat";
 
 export default function ViewArticle() {
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
   
   const { postId } = useParams<{ postId: string }>();
   const [article, setArticle] = useState<ArticleResponse>(

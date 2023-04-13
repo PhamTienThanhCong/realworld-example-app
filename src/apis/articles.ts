@@ -1,5 +1,5 @@
 import { Article } from "../models/article";
-import { POST, DELETE, GET } from "./config";
+import { POST, DELETE, GET, PUT } from "./config";
 
 // tìm kiếm bài viết
 export const getFeeds = (page:number, params?:{}) => GET(`/articles`, params);
@@ -17,6 +17,11 @@ export const unFavoriteArticle = (slug: string) => DELETE(`/articles/${slug}/fav
 export const createArticle = (data:Article) => {
     return POST("/articles", { article: data });
   };
+
+// sua bai viet
+export const updateArticle = (slug: string, data:Article) => {
+  return PUT(`/articles/${slug}`, { article: data });
+};
 
 // Xoa bai viet
 export const deleteArticle = (slug: string) => DELETE(`/articles/${slug}`);

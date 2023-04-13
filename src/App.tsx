@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import NotFoundPage from "./pages/NotFoundPage";
 import NewArticle from "./pages/NewArticle";
 import { Box } from "@mantine/core";
+import EditArticle from "./pages/EditArticle";
 function App() {
   const minHeight = `calc(100vh - 120px)`;
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route element={<AuthRoutes />}>
               <Route path="/settings" element={<EditProfile />} />
               <Route path="/newArticle" element={<NewArticle/>} />
+              <Route path="/edit/:postId" element={<EditArticle/>} />
             </Route>
 
             <Route path="/profile/:username" element={ <Profile /> } />

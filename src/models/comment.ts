@@ -17,3 +17,14 @@ export type CommentResponse = {
         following: boolean;
     }
 }
+
+export const DEFAULT_COMMENT_RESPONSE: CommentResponse = {
+    id: 0,
+    createdAt: "",
+    updatedAt: "",
+    body: "",
+    author:  {
+      ...DEFAULT_USER,
+      following: false
+    }
+}

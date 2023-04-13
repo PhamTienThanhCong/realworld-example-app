@@ -1,11 +1,27 @@
 import { ActionIcon, Avatar, Box, Flex, Text } from "@mantine/core";
 import { convertLineToBr, formatDate } from "../../Helper/TextFormat";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { CommentResponse } from "../../models/comment";
+import { deleteComment } from "../../apis/comment";
+import { useState } from "react";
 
-export default function CommentItem({ comment }: { comment: CommentResponse }) {
+export default function CommentItem({ comment, actionComment }: { comment: CommentResponse, actionComment: (id: number) => void }) {
+  const { postId } = useParams<{ postId: string }>();
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const handleDelete = async () => {
+    setLoadingDelete(true);
+    try {
+      await deleteComment(postId || "", comment.id);
+      actionComment(comment.id);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingDelete(false);
+    }
+  }
+  
   return (
     <Box
       mt="30px"
@@ -34,7 +50,7 @@ export default function CommentItem({ comment }: { comment: CommentResponse }) {
             {formatDate(new Date(comment.createdAt))}
           </Text>
         </Flex>
-        <ActionIcon size="20px" variant="transparent">
+        <ActionIcon size="20px" variant="transparent" onClick={handleDelete} disabled={loadingDelete}>
           <FontAwesomeIcon icon={faTrashCan} style={{ fontSize: "0.8rem" }} />
         </ActionIcon>
       </Flex>
